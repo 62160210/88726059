@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ex-5.html</title>
+</head>
+<body>
+    <h3>ผู้แต่ง</h3>
+    <hr>
+    <p id='authors'></p>
+    <script>
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                var myjson = JSON.parse(this.responseText);
+                show(myjson);
+            }
+        };
+        xmlhttp.open("GET", "http://localhost:3000/get_author.php", true);
+        xmlhttp.send();
+
+        function show(jsonarr) {
+            var text = ""
+            for (var i = 0; i < jsonarr.length; i++) {
+                text += "รหัส: " + jsonarr[i].authorID
+                text += "<br>ชื่อ: " + jsonarr[i].author
+                text += "<br>นามปากกา: " + jsonarr[i].penname
+                text += "<br><a href='http://localhost:3000/del_author.php?authorID=" + jsonarr[i].authorID + "'><button>ลบ</button></a>"
+                text += "<br><hr>"
+            }
+            document.getElementById('authors').innerHTML = text;
+        }
+
+
+    </script>
+</body>
+</html>
